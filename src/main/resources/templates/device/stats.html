@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head th:replace="~{fragments/navbar.html :: header( title = 'Equipos')}"></head>
+<body>
+
+<aside th:replace="Fragmentos/menuL7 :: menu">
+
+</aside><!-- End Sidebar-->
+
+<main>
+  <div class="container px-4 pb-5">
+    <nav th:replace="~{fragments/navbar.html :: navbar( active = 'Device')}"></nav>
+    <h1 class="pb-2 border-bottom">Lista de empleados</h1>
+    <a class="btn btn-primary mt-4 mb-4" th:href="@{'/device/new'}">Nuevo Equipo</a>
+    <div th:if="${msg != null}" th:text="${msg}" class="alert alert-success" role="alert"></div>
+
+    <h2 class="mt-4">Estadistica de equipos</h2>
+    <hr/>
+
+    <h4 class="mt-4">Cantidad de equipos por pais</h4>
+    <table class="table table-sm">
+      <tr>
+        <th>País</th>
+        <th>Cantidad de empleados</th>
+      </tr>
+      <tr th:each="empleadoPorPais : ${listaEquiposPorPais}">
+        <td th:text="${equipoPorPais.getPais()}">
+        <td th:text="${equipoPorPais.getCantidad()}"></td>
+      </tr>
+    </table>
+  </div>
+</main>
+}}
+</body>
+</html>

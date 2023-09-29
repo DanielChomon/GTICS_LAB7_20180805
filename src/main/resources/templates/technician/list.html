@@ -1,0 +1,147 @@
+!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+
+<body>
+<!-- ======= Header ======= -->
+
+
+<!-- ======= Sidebar ======= -->
+<aside th:replace="Fragmentos/menumenuL7 :: menu">
+</aside><!-- End Sidebar-->
+
+<main id="main" class="main">
+    <div class="container">
+
+        <div class="pagetitle">
+            <nav>
+                <ol class="breadcrumb">
+                    <li class="breadcrumb-item">Gestión de tecnicas</li>
+                    <li class="breadcrumb-item active">Lista de Tecnicos</li>
+                </ol>
+            </nav>
+        </div><!-- End Page Title -->
+
+        <section class="section">
+            <div class="row">
+                <div class="col-lg-12">
+
+                    <div class="card">
+
+                        <div class="card-body">
+                            <div class="container">
+
+                                <a th:href="@{/technician/newFrm}" class="btn btn-outline-primary me-2 mt-3 float-end">Nuevo administrador</a>
+                                <h5 class="card-title">Usuarios en general</h5>
+                            </div>
+                            <!-- Table with stripped rows -->
+                            <table class="table datatable">
+                                <thead>
+                                <tr>
+                                    <th scope="col">#</th>
+                                    <th scope="col">Nombre</th>
+                                    <th scope="col">DNI</th>
+                                    <th scope="col">Telefono</th>
+                                    <th scope="col">Edad</th>
+                                    <th scope="col">Acciones</th>
+                                </tr>
+                                </thead>
+                                <tbody>
+                                <tr th:each="usuario, info : ${listaTecnicos}">
+                                    <td th:text="${info.index + 1}"></td>
+                                    <td th:text="${technician.firstname} + ' ' + ${technician.lastname}"></td>
+                                    <td th:text="${technician.dni}"></td>
+                                    <td th:text="${technician.phone}"></td>
+                                    <td th:text="${technician.age}"></td>
+                                    <td>
+                                        <div class="d-flex justify-content-center align-items-center">
+                                            <div class="dropdown">
+                                                <button class="btn btn-light dropdown" type="button" data-bs-toggle="dropdown" aria-expanded="false">
+                                                    <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-three-dots" viewBox="0 0 16 16">
+                                                        <path d="M3 9.5a1.5 1.5 0 1 1 0-3 1.5 1.5 0 0 1 0 3zm5 0a1.5 1.5 0 1 1 0-3 1.5 1.5 0 0 1 0 3zm5 0a1.5 1.5 0 1 1 0-3 1.5 1.5 0 0 1 0 3z"/>
+                                                    </svg>
+                                                </button>
+                                                <ul class="dropdown-menu">
+
+                                                    <!-- solo si es "Administrador" -->
+                                                    <li th:if="${usuario.cargo.nombreCargo == 'Administrador'}">
+                                                        <a th:href="@{'/superadmin/editarUsuario?id=' + ${usuario.id}}" class="dropdown-item me-2">Editar</a>
+                                                        <a th:href="@{'/superadmin/verUsuarioA?id=' + ${usuario.id}}" class="dropdown-item me-2">Visualizar</a>
+                                                        <a th:href="@{'/superadmin/banearUsuario?id=' + ${usuario.id}}" class="dropdown-item me-2" id="popover-button" data-bs-container="body" data-bs-placement="left" data-bs-content="Left popover">Desactivar</a>
+                                                    </li>
+                                                    <!-- solo si NO es "Administrador" -->
+                                                    <li th:unless="${usuario.cargo.nombreCargo == 'Administrador'}">
+                                                        <a th:href="@{'/superadmin/verUsuario?id=' + ${usuario.id}}" class="dropdown-item me-2">Visualizar</a>
+                                                    </li>
+                                                </ul>
+                                                <div class="modal fade" id="staticBackdrop" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
+                                                    <div class="modal-dialog modal-dialog-centered">
+                                                        <div class="modal-content">
+                                                            <div class="modal-header">
+                                                                <h1 class="modal-title fs-5" id="staticBackdropLabel">Adventencia</h1>
+                                                            </div>
+                                                            <div class="modal-body">
+                                                                <h3>¿Está seguro que desea banear al usuario?</h3>
+                                                            </div>
+                                                            <div class="modal-footer">
+                                                                <button type="button" class="btn btn-outline-danger" data-bs-dismiss="modal">Cancelar</button>
+                                                                <a th:href="@{'/superadmin/banearUsuario?id=' + ${usuario.id}}" class="btn btn-outline-primary">Confirmar</a>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+
+                                            </div>
+                                        </div>
+                                        <!-- MODAL -->
+                                    </td>
+                                </tr>
+
+                                </tbody>
+                            </table>
+                            <!-- End Table with stripped rows -->
+
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+        </section>
+
+    </div>
+</main><!-- End #main -->
+
+<!-- ======= Footer ======= -->
+
+<a href="#" class="back-to-top d-flex align-items-center justify-content-center"><i class="bi bi-arrow-up-short"></i></a>
+
+<!-- Vendor JS Files -->
+<script th:src="@{/assets/vendor/apexcharts/apexcharts.min.js}"></script>
+<script th:src="@{/assets/vendor/bootstrap/js/bootstrap.bundle.min.js}"></script>
+<script th:src="@{/assets/vendor/chart.js/chart.umd.js}"></script>
+<script th:src="@{/assets/vendor/echarts/echarts.min.js}"></script>
+<script th:src="@{/assets/vendor/quill/quill.min.js}"></script>
+<script th:src="@{/assets/vendor/simple-datatables/simple-datatables.js}"></script>
+<script th:src="@{/assets/vendor/tinymce/tinymce.min.js}"></script>
+<script th:src="@{/assets/vendor/php-email-form/validate.js}"></script>
+
+<!-- Template Main JS File -->
+<script th:src="@{/assets/js/main.js}"></script>
+<script>
+    $(document).ready(function() {
+        // Selecciona el botón del popover
+        var popoverButton = $('#popover-button');
+
+        // Activa el popover al pasar el mouse sobre el botón
+        popoverButton.mouseenter(function() {
+            popoverButton.popover('show');
+        });
+
+        // Desactiva el popover al quitar el mouse del botón
+        popoverButton.mouseleave(function() {
+            popoverButton.popover('hide');
+        });
+    });
+</script>
+</body>
+
+</html>
